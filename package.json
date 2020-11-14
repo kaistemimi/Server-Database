@@ -1,0 +1,26 @@
+{
+  "name": "server-database",
+  "version": "1.0.0",
+  "description": "Repo for the server and database",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaykelHadjSalem/Server-Database.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaykelHadjSalem/Server-Database/issues"
+  },
+  "homepage": "https://github.com/HaykelHadjSalem/Server-Database#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
