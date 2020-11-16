@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //   res.json({message:'working connection'})
 // })
 
-add();
+
 app.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`);
   });

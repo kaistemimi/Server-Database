@@ -8,6 +8,8 @@ const sequelize = new Sequelize('carpooling', 'root', 'root', {
 });
 
 
+
+
 sequelize
     .authenticate()
     .then(() => {
