@@ -26,5 +26,5 @@ CREATE TABLE cars(
   VIN  INT NOT NULL,
   maxSeats INT NOT NULL,
   PRIMARY KEY (idcars),
-  FOREIGN KEY (iddriver) REFERENCES drivers(iddriver)
+  FOREIGN KEY (id_driver) REFERENCES drivers(iddriver)
 );
