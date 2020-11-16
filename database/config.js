@@ -1,6 +1,7 @@
-module.exports = {
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'car'
-  };
+// module.exports = {
+//     HOST: "localhost",
+//     USER: "root",
+//     PASSWORD: "root",
+//     DB: "CarPooling",
+//     dialect: "mysql",
+//   };

@@ -1,41 +1,32 @@
-const getDrivers = function() {
-    return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM drivers"
-      connection.query(sql, (err,data)=>{
-        if(err)
-        reject(err);
-        else
-        resolve(data)
-      })
-    })
-  };
+const {Model, Sequelize} = require('sequelize');
+const sequelize = require('../index.js');
 
-  const getOneDriver= function(id){
-    return new Promise((resolve, reject) =>{
-      const sql ="SELECT * FROM  drivers WHERE iddriver = ?"
-      connection.query(sql, (err, data) =>{
-        if(err)
-        reject(err);
-        else resolve(data)
-      })
-    })
-  };
+class Drivers extends Model {}
 
-  const addDriver = function(driver){
-    return new Promise((resolve, reject) =>{
-      const sql = "INSERT INTO drivers (firstName,lastName,address,phoneNumber,email,password,ICN, driverLicense) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?)"
-      connection.query(sql,[driver.firstName,driver.lastName,driver.address,driver.phoneNumber,driver.email,driver.password, driver.ICN,driver.driverLicense],(err,data) =>{
-        if(err)
-        reject(err)
-        else
-         resolve (data)
-      })
-    })
-  }
-
-
-  module.exports = {
-    getDrivers,
-   getOneDriver,
-   addDriver
-}
+Drivers.init({
+  firstName: {
+    type: Sequelize.STRING,
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  address: {
+    type: Sequelize.STRING
+  },
+  phoneNumber: {
+    type: Sequelize.INTEGER
+  },
+  ICN: {
+    type: Sequelize.INTEGER
+  },
+  driverLicence: {
+    type: Sequelize.INTEGER
+  },
+  email: {
+    type: Sequelize.STRING
+  },
+  password: {
+    type: Sequelize.STRING
+  },
+}, {sequelize, modelName: 'drivers'})
+module.exports = Drivers;
