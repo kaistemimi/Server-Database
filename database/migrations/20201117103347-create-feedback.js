@@ -1,36 +1,25 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Cars', {
+    await queryInterface.createTable('Feedback', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      model: {
-        allowNull: false,
+      message: {
         type: Sequelize.STRING
       },
-      fuelType: {
+      passengerId: {
         allowNull: false,
-        type: Sequelize.STRING
-      },
-      color: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      VKT: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      VIN: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      maxSeats: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Passengers',
+          key: 'id',
+          as: 'passengerId',
+        }
       },
       driverId: {
         allowNull: false,
@@ -40,6 +29,16 @@ module.exports = {
           model: 'Drivers',
           key: 'id',
           as: 'driverId',
+        }
+      },
+      rideId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Rides',
+          key: 'id',
+          as: 'rideId',
         }
       },
       createdAt: {
@@ -55,6 +54,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Cars');
+    await queryInterface.dropTable('Feedback');
   }
 };

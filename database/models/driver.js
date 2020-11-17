@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       Driver.hasOne(models.Car, {
         foreignKey: 'driverId',
       })
+      Driver.hasMany(models.Ride, {
+        foreignKey: 'driverId',
+      })
+      Driver.hasMany(models.Feedback, {
+        foreignKey: 'driverId',
+      })
     }
   };
   Driver.init({

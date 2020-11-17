@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Ride.belongsTo(models.Driver, {
+        foreignKey: 'driverId',
+        onDelete: 'CASCADE'
+      })
+      Ride.hasMany(models.Feedback, {
+        foreignKey: 'rideId',
+      })
     }
   };
   Ride.init({
@@ -22,7 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     checkedStatus: DataTypes.BOOLEAN,
     ratedStatus: DataTypes.BOOLEAN,
-    stopId: DataTypes.INTEGER,
+    stop1: DataTypes.STRING,
+    stop2: DataTypes.STRING,
+    stop3: DataTypes.STRING,
+    stop4: DataTypes.STRING,
     driverId: DataTypes.INTEGER
   }, {
     sequelize,

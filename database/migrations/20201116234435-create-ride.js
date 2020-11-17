@@ -32,19 +32,41 @@ module.exports = {
       ratedStatus: {
         type: Sequelize.BOOLEAN
       },
-      stopId: {
-        type: Sequelize.INTEGER
+      stop1: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop2: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop3: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop4: {
+        type: Sequelize.STRING,
+        defaultValue: null
       },
       driverId: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Drivers',
+          key: 'id',
+          as: 'driverId',
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
       }
     });
   },
