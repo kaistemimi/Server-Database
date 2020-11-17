@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Driver extends Model {
     /**
@@ -39,3 +40,4 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Driver;
 };
+
