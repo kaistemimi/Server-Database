@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
   });
 
   router.get("/:id", async (req, res) => {
-      console.log(req.params)
     await Driver.findByPk(req.params.id).then((drivers) => res.json(drivers));
   });
 
@@ -25,9 +24,7 @@ router.get("/", async (req, res) => {
     }); 
     if (emailExist) return res.status(400).send("Email already exist");
     const salt = await bcrypt.genSalt(10);
-    console.log(req.body.password);
     const hashPassword = await bcrypt.hash(req.body.password, salt); 
-     console.log(hashPassword);
     const driver = await Driver.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,

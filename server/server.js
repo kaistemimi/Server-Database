@@ -6,6 +6,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+const auth = require('./Middleware/auth.jwt.js')
 const car = require('./routes/car.js')
 const driver = require('./routes/drivers.js')
 const passenger = require('./routes/passengers.js')
