@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       Ride.hasMany(models.Feedback, {
         foreignKey: 'rideId',
       })
+      Ride.belongsToMany(models.Passenger, {through: 'RidePassengers'})
     }
   };
   Ride.init({
