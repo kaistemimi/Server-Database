@@ -9,24 +9,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       model: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       fuelType: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       color: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       VKT: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       VIN: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       maxSeats: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       driverId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
         references: {

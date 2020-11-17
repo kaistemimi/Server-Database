@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     ICN: DataTypes.INTEGER,
-    driverLicense: DataTypes.INTEGER
+    driverLicense: DataTypes.INTEGER,
+    timesRated: DataTypes.INTEGER,
+    rating: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Driver',
