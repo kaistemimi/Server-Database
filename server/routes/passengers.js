@@ -21,9 +21,7 @@ router.get("/", async (req, res) => {
   }); 
   if (emailExist) return res.status(400).send("Email already exist");
   const salt = await bcrypt.genSalt(10);
-  console.log(req.body.password);
   const hashPassword = await bcrypt.hash(req.body.password, salt); 
-   console.log(hashPassword);
   const passenger = await Passenger.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
