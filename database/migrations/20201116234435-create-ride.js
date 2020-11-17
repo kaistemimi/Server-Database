@@ -27,10 +27,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       checkedStatus: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       ratedStatus: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       stop1: {
         type: Sequelize.STRING,
