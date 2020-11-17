@@ -1,36 +1,52 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Cars', {
+    await queryInterface.createTable('Rides', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      model: {
-        allowNull: false,
+      departure: {
         type: Sequelize.STRING
       },
-      fuelType: {
-        allowNull: false,
+      destination: {
         type: Sequelize.STRING
       },
-      color: {
-        allowNull: false,
-        type: Sequelize.STRING
+      date: {
+        type: Sequelize.DATEONLY
       },
-      VKT: {
-        allowNull: false,
+      time: {
+        type: Sequelize.TIME
+      },
+      seats: {
         type: Sequelize.INTEGER
       },
-      VIN: {
-        allowNull: false,
+      price: {
         type: Sequelize.INTEGER
       },
-      maxSeats: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+      checkedStatus: {
+        type: Sequelize.BOOLEAN
+      },
+      ratedStatus: {
+        type: Sequelize.BOOLEAN
+      },
+      stop1: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop2: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop3: {
+        type: Sequelize.STRING,
+        defaultValue: null
+      },
+      stop4: {
+        type: Sequelize.STRING,
+        defaultValue: null
       },
       driverId: {
         allowNull: false,
@@ -55,6 +71,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Cars');
+    await queryInterface.dropTable('Rides');
   }
 };
