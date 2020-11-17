@@ -37,6 +37,8 @@ router.get("/", async (req, res) => {
         phoneNumber: req.body.phoneNumber,
         ICN: req.body.ICN,
         driverLicense: req.body.driverLicense,
+        timesRated: req.body.timesRated,
+        rating: req.body.rating
       })
     res.json(driver)
   })
@@ -57,10 +59,32 @@ router.get("/", async (req, res) => {
        
   });
 
+  router.put("/:id", async (req, res) => {
+    Driver.findByPk(req.params.id).then((drivers) => {
+      drivers.update({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            password:hashPassword,
+            email: req.body.email,
+            address: req.body.address,
+            phoneNumber: req.body.phoneNumber,
+            ICN: req.body.ICN,
+            driverLicense: req.body.driverLicense,
+            timesRated: req.body.timesRated,
+            rating: req.body.rating
+        })
+        .then((drivers) => {
+          res.json(drivers);
+        });
+    });
+  });
+
+
+
   router.delete("/:id", async (req, res) => {
     await Driver.findByPk(req.params.id)
       .then((drivers) => {
-        Driver.destroy();
+        drivers.destroy();
       })
       .then(() => {
         res.json("deleted");

@@ -13,6 +13,7 @@ const registerPassengerValidation = data =>{
     })
     return validation.validate(data);
 }
+
 const loginPassengerValidation = data =>{
     const validation = joi.object({
         email:joi.string().required().email(),
