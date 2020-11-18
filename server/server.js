@@ -10,9 +10,7 @@ const auth = require('./Middleware/auth.jwt.js')
 const car = require('./routes/car.js')
 const driver = require('./routes/drivers.js')
 const passenger = require('./routes/passengers.js')
-// app.get('/api/passenger', (req, res) => {
-//   res.json({message:'working connection'})
-// })
+
 
 app.use("/car", car);
 app.use("/passenger", passenger);
