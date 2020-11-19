@@ -19,11 +19,9 @@ router.get("/", async (req, res) => {
   const emailExist = await Passenger.findOne({
     where: { email: req.body.email },
   }); 
-  if (emailExist) return res.status(400).send("Email already exist");
+  if (emailExist) return res.send({message: "Email already exist"});
   const salt = await bcrypt.genSalt(10);
-  console.log(req.body.password);
   const hashPassword = await bcrypt.hash(req.body.password, salt); 
-   console.log(hashPassword);
   const passenger = await Passenger.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -33,25 +31,34 @@ router.get("/", async (req, res) => {
       phoneNumber: req.body.phoneNumber,
       ICN: req.body.ICN
     })
-  res.json(passenger)
+  res.status(200).json({
+    passenger: passenger,
+    accessToken: jwt.sign(
+      { id: passenger.id },
+      'RANDOM_TOKEN_SECRET',
+      { expiresIn: 30*60 } 
+    )
+  })
 })
 
-
 router.post("/login", async (req, res) => {
+  console.log(req.body)
     const user = await Passenger.findOne({ where: { email: req.body.email } });
-    if (!user) return res.status(400).send("Email is not found");
+    if (!user) {res.json({ message :"Email is not found"}) }
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).send("Invalid password ");
+    if (!validPass) return res.json({message: "Invalid password "});
     res.status(200).json({
-        idpassenger: user.id,
-        token: jwt.sign(
-          { userId: user.id },
+        passenger: user,
+        accessToken: jwt.sign(
+          { id: user.id },
           'RANDOM_TOKEN_SECRET',
-          { expiresIn: '30*60' } 
+          { expiresIn: 30*60 } 
         )
       });
        
-  });  router.delete("/:id", async (req, res) => {
+  });  
+   
+  router.delete("/:id", async (req, res) => {
     await Passenger.findByPk(req.params.id)
       .then((passenger) => {
         passenger.destroy();
@@ -62,6 +69,7 @@ router.post("/login", async (req, res) => {
   });
 
 
+  // const passenger= await sequelize.query(`INSERT INTO passenger(firstName,lastName,address,phoneNumber,email,password,ICN) VALUES("${firstName}","${lastName}","${address}","${phoneNumber}","${email}","${password}","${ICN}"`, { type: QueryTypes.INSERT});
 
 
   module.exports = router;
