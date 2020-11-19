@@ -61,6 +61,7 @@ router.post("/login", async (req, res) => {
   });
 
 
+  // const passenger= await sequelize.query(`INSERT INTO passenger(firstName,lastName,address,phoneNumber,email,password,ICN) VALUES("${firstName}","${lastName}","${address}","${phoneNumber}","${email}","${password}","${ICN}"`, { type: QueryTypes.INSERT});
 
 
   module.exports = router;
