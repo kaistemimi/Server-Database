@@ -51,26 +51,30 @@ router.post("/reserve/add", async (req, res) => {
 
 
 //basma
-router.post('/add',async(req,res)=>{
-    // const {departure,destination,time,date,price,seats,stop1,stop2,stop3,stop4,driverId} = req.body
-    console.log(req.body)
-    const ride = await Ride.create({
-        departure: req.body.deparature,
-        destination: req.body.destination,
-        time: req.body.time,
-        date: req.body.date,
-        price: req.body.price,
-        seats: req.body.seats,
-        stop1: req.body.stop1,
-        stop2: req.body.stop2,
-        stop3: req.body.stop3,
-        stop4: req.body.stop4,
-        driverId: req.driverId
-    });
-    res.json(ride);
-})
+router.post('/add', async(req, res) => {
+    try{
+      await Ride.create({
+       departure: req.body.departure,
+       destination: req.body.destination,
+       date: req.body.date,
+       time: req.body.time,
+       seats: req.body.seats,
+       price: req.body.price,
+       checkedStatus: false,
+       ratedStatus: req.body.ratedStatus,
+       stop1: req.body.stop1,
+       stop2: req.body.stop2,
+       stop3: req.body.stop3,
+       stop4: req.body.stop4,
+       driverId: req.body.driverId
+       })
+      .then((ride) => res.json(ride))
+    }catch(error){
+     res.status(405).json(error)
+    }
+   })
 
-router.get('/:id',async (req,res)=>{
+   router.get('/:id',async (req,res)=>{
     const result = [];
     const driverId = req.params.id;
       await Ride.finePK(driverId)
