@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Driver extends Model {
     /**
@@ -14,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       Driver.hasOne(models.Car, {
         foreignKey: 'driverId',
       })
+      Driver.hasMany(models.Ride, {
+        foreignKey: 'driverId',
+      })
+      Driver.hasMany(models.Feedback, {
+        foreignKey: 'driverId',
+      })
     }
   };
   Driver.init({
@@ -24,10 +31,13 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     ICN: DataTypes.INTEGER,
-    driverLicense: DataTypes.INTEGER
+    driverLicense: DataTypes.INTEGER,
+    timesRated: DataTypes.INTEGER,
+    rating: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Driver',
   });
   return Driver;
 };
+
