@@ -9,7 +9,7 @@ router.get("/:id", async (req, res) => {
   await Car.findByPk(req.params.id).then((car) => res.json(car));
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", AuthJwt, async (req, res) => {
   console.log(req.body)
   const car = await Car.create({
       model: req.body.model,
