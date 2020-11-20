@@ -15,9 +15,10 @@ router.get('/ride', async(req, res) => {
 });
 
 
-router.post('/', async(req, res) => {
+router.post('/create', async(req, res) => {
+    console.log(req.body)
     await Ride.create({
-        departure: req.body.deparature,
+        departure: req.body.departure,
         destination: req.body.destination,
         time: req.body.time,
         date: req.body.date,
@@ -27,9 +28,11 @@ router.post('/', async(req, res) => {
         stop2: req.body.stop2,
         stop3: req.body.stop3,
         stop4: req.body.stop4,
-        driverId: req.driverId
+        driverId: req.body.driverId
     })
-    .then((ride) => res.json(ride))
+    .then((ride) => {
+        console.log(ride)
+        res.json(ride)})
 })
 
 
