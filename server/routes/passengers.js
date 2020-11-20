@@ -2,7 +2,8 @@ const {Passenger} = require('../../database/models');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const ride = require('../../database/models/ride');
 
 
 router.get("/", async (req, res) => {
@@ -15,7 +16,6 @@ router.get("/", async (req, res) => {
 
 
   router.post("/register", async (req, res) => {
-    console.log(req.body)
   const emailExist = await Passenger.findOne({
     where: { email: req.body.email },
   }); 
@@ -34,22 +34,24 @@ router.get("/", async (req, res) => {
   res.json(passenger)
 })
 
-
 router.post("/login", async (req, res) => {
+  console.log(req.body)
     const user = await Passenger.findOne({ where: { email: req.body.email } });
-    if (!user) return res.status(400).send("Email is not found");
+    if (!user) {res.json({ message :"Email is not found"}) }
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).send("Invalid password ");
+    if (!validPass) return res.status(400).json({message: "Invalid password "});
     res.status(200).json({
-        idpassenger: user.id,
-        token: jwt.sign(
+        passenger: user,
+        accessToken: jwt.sign(
           { userId: user.id },
           'RANDOM_TOKEN_SECRET',
-          { expiresIn: '30*60' } 
+          { expiresIn: 30*60 } 
         )
       });
        
-  });  router.delete("/:id", async (req, res) => {
+  });  
+   
+  router.delete("/:id", async (req, res) => {
     await Passenger.findByPk(req.params.id)
       .then((passenger) => {
         passenger.destroy();
@@ -58,6 +60,8 @@ router.post("/login", async (req, res) => {
         res.json("deleted");
       });
   });
+
+
 
 
   // const passenger= await sequelize.query(`INSERT INTO passenger(firstName,lastName,address,phoneNumber,email,password,ICN) VALUES("${firstName}","${lastName}","${address}","${phoneNumber}","${email}","${password}","${ICN}"`, { type: QueryTypes.INSERT});
