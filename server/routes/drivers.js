@@ -48,7 +48,7 @@ router.get("/", async (req, res) => {
       driver: user,
         accessToken : jwt.sign(
           { id: user.id },
-          'RANDOM_TOKEN_SECRET',
+          'HAMDI_IS_DYING',
           { expiresIn: 2*60 } //expires in by seconds
         )
       });

@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
         passenger: user,
         accessToken: jwt.sign(
           { userId: user.id },
-          'RANDOM_TOKEN_SECRET',
+          'HAMDI_IS_DYING',
           { expiresIn: 30*60 } 
         )
       });
