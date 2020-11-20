@@ -1,10 +1,8 @@
 const express = require('express');
 const router= express.Router();
 const {Ride} = require('../../database/models');
-
 // const db = require("../../database/models/ride");
 // const { Model } = require('sequelize/types');
-
 
 
 router.get('/', async(req, res) => {
