@@ -1,6 +1,7 @@
 const express = require('express');
 const router= express.Router();
 const {Ride} = require('../../database/models');
+const ride = require('../../database/models/ride');
 const db = require("../../database/models/ride");
 // const { Model } = require('sequelize/types');
 // const { QueryTypes} = require('sequelize');
@@ -50,10 +51,14 @@ router.post("/reserve/add", async (req, res) => {
 
 
 
+
+
 //basma
+//will insert a new row in the rides table
 router.post('/add', async(req, res) => {
-    try{
-      await Ride.create({
+    try{console.log(req.body)
+   const ride = await Ride.create({
+     
        departure: req.body.departure,
        destination: req.body.destination,
        date: req.body.date,
@@ -61,34 +66,35 @@ router.post('/add', async(req, res) => {
        seats: req.body.seats,
        price: req.body.price,
        checkedStatus: false,
-       ratedStatus: req.body.ratedStatus,
        stop1: req.body.stop1,
        stop2: req.body.stop2,
        stop3: req.body.stop3,
        stop4: req.body.stop4,
        driverId: req.body.driverId
        })
-      .then((ride) => res.json(ride))
+       console.log(ride)
+       res.json(ride)
     }catch(error){
-     res.status(405).json(error)
+     res.status(500).json(error)
     }
    })
 
+  //  1 - making an empty memory array to put the filtred data in it
+  //  2 - getting all the rides from ride table by driver id
+  //  3 - filter the data from database where checkedStatus is false
+  //  4 - send the response to the front end in an object where the key is data
+  //    find() for any field
    router.get('/:id',async (req,res)=>{
+    // console.log(result)
     const result = [];
     const driverId = req.params.id;
-      await Ride.finePK(driverId)
-    .then((rides)=>{
-        if(rides.length ===0) res.status(204).json({data: []});
-        result = rides.filter(Unchecked =>{
-        return unchecked.unckheckedStatus  === false})
-        res.json({data: result})
-     
-    })
-    .then(err=>{
-    res.status(500).json(err)
-    })
-})
+    const rides = await Ride.find({driverId : req.body.driverId},(err,data)=>{
+          if(rides.length === 0) res.status(204).json({data: []});
+        result = rides.filter(unchecked =>{
+        return unchecked.checkedStatus === false})
+        res.json({data: result}) 
+     });
+});
 
 
 
