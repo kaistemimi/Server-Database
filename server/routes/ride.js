@@ -1,13 +1,12 @@
 const express = require('express');
 const router= express.Router();
 const {Ride} = require('../../database/models');
-const db = require("../../database/models/ride");
-const { Model } = require('sequelize/types');
-const { QueryTypes} = require('sequelize');
+// const db = require("../../database/models/ride");
+// const { Model } = require('sequelize/types');
 
-Ride.create()
+
 router.get('/', async(req, res) => {
-    await Ride.findAll().then((passenger) => res.json(passenger))
+    await Ride.findAll().then((ride) => res.json(ride))
 });
 
 
@@ -16,9 +15,10 @@ router.get('/ride', async(req, res) => {
 });
 
 
-router.post('/', async(req, res) => {
+router.post('/create', async(req, res) => {
+    console.log(req.body)
     await Ride.create({
-        departure: req.body.deparature,
+        departure: req.body.departure,
         destination: req.body.destination,
         time: req.body.time,
         date: req.body.date,
@@ -28,13 +28,54 @@ router.post('/', async(req, res) => {
         stop2: req.body.stop2,
         stop3: req.body.stop3,
         stop4: req.body.stop4,
-        driverId: req.driverId
+        driverId: req.body.driverId
     })
-    .then((ride) => res.json(ride))
+    .then((ride) => {
+        console.log(ride)
+        res.json(ride)})
 })
 
 
-router.post("/reserve/add", async (req, res) => {
+
+router.post('ride/search', async(req, res) => {
+   try {
+    const rides = await Ride.findAll({
+        deparature: req.body.departure,
+        destination: req.body.destination
+    });
+    res.status(200).json(rides);
+    } catch(error) {
+        res.status(405).json(error);
+    }
+});
+
+
+
+
+router.get('/top', async(req, res) => {
+    try {
+        const topList = [];
+        const allRides = await Ride.findAll({
+            where: {checkedStatus: false}
+        });
+        let i = 0;
+        while(i < allRides.length) {
+            let driverIndex = allRides[i].driverId;
+            let drivers = Driver.findPk(driverIndex);
+            if(list.length > 0) {
+                topList.push(list);
+            }
+            i++;
+        }
+        res.status(200).json({data: topList})
+    }catch(error) {
+        res.status(405).json(error);
+    }
+})
+
+
+
+router.post('/reserve', async (req, res) => {
     const passengerId = req.body.passengerId;
     const rideId = req.body.rideId;
     let ride = await Ride.findOne({id: rideId});
@@ -42,10 +83,7 @@ router.post("/reserve/add", async (req, res) => {
   });
 
 
-//   const ride = await Passenger.create({ id: passengerId });
-//   await user.addRide([ride,RidePassengers]);
-//   const appointment = await sequelize.query(`INSERT INTO RidePassenger(rideId,passengerId) VALUES("${rideId}","${passengerId}"`, { type: QueryTypes.INSERT});
-  
 
 
-module.export = router ;
+
+module.exports = router ;

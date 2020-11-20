@@ -2,7 +2,8 @@ const {Passenger} = require('../../database/models');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const ride = require('../../database/models/ride');
 
 
 router.get("/", async (req, res) => {
@@ -67,6 +68,8 @@ router.post("/login", async (req, res) => {
         res.json("deleted");
       });
   });
+
+
 
 
   // const passenger= await sequelize.query(`INSERT INTO passenger(firstName,lastName,address,phoneNumber,email,password,ICN) VALUES("${firstName}","${lastName}","${address}","${phoneNumber}","${email}","${password}","${ICN}"`, { type: QueryTypes.INSERT});
