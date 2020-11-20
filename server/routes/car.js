@@ -5,9 +5,6 @@ const AuthJwt = require('../Middleware/auth.jwt.js')
 const {Car} = require('../../database/models');
 
 
-// router.get("/get", async (req, res) => {
-//   await Car.findByPk(req.params.id).then((car) => res.json(car));
-// });
 
 router.post("/carId",async(req,res)=>{
   const car= await Car.findOne({where: { driverId :req.body.driverId } })

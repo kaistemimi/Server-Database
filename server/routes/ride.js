@@ -1,22 +1,30 @@
 const express = require('express');
 const router= express.Router();
 const {Ride} = require('../../database/models');
-const db = require("../../database/models/ride");
-const { Model } = require('sequelize/types');
-const { QueryTypes} = require('sequelize');
 
-Ride.create()
+
+
 router.get('/', async(req, res) => {
     await Ride.findAll().then((passenger) => res.json(passenger))
 });
 
 
-router.get('/ride', async(req, res) => {
-    await Ride.findOne({where: {date: req.body.date}}).then((ride) => res.json(ride))
+router.get('/RideByDriver', async(req, res) => {
+    await Ride.findOne({where: {driverId: req.body.driverId}}).then((ride) => res.json(ride))
 });
 
+router.get("/:id", async (req, res) => {
+    console.log(typeof req.params.id)
+    const id = Number(req.params.id);
+    const ride= await Ride.findOne({where: { driverId :id } })
+  console.log(ride)
+    res.json(ride)
+  });
+  
 
-router.post('/', async(req, res) => {
+
+router.post('/create', async(req, res) => {
+    console.log(req.body)
     await Ride.create({
         departure: req.body.deparature,
         destination: req.body.destination,
@@ -28,7 +36,7 @@ router.post('/', async(req, res) => {
         stop2: req.body.stop2,
         stop3: req.body.stop3,
         stop4: req.body.stop4,
-        driverId: req.driverId
+        driverId: req.body.driverId
     })
     .then((ride) => res.json(ride))
 })
@@ -48,4 +56,4 @@ router.post("/reserve/add", async (req, res) => {
   
 
 
-module.export = router ;
+module.exports = router ;
