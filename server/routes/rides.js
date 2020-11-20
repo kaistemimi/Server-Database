@@ -84,17 +84,22 @@ router.post('/add', async(req, res) => {
   //  3 - filter the data from database where checkedStatus is false
   //  4 - send the response to the front end in an object where the key is data
   //    find() for any field
-   router.get('/:id',async (req,res)=>{
+   router.get('/:id',async (req,res) => {
     // console.log(result)
     const result = [];
     const driverId = req.params.id; 
-    // Ride.find({where: {driverId: 2}}) WHERE DRIVERiD IS THE FORGIN
-    const rides = await Ride.find({driverId : req.body.driverId},(err,data)=>{
-          if(rides.length === 0) res.status(204).json({data: []});
-        result = rides.filter(unchecked =>{
-        return unchecked.checkedStatus === false})
+    // e.g Ride.find({where: {driverId: 2}}) WHERE DRIVERiD IS THE FORGIN
+    const rides = await Ride.findAll({
+        where: {
+          [Op.and]: [
+            { driverId: driverId },
+            { checkedStatus: false }
+          ]
+        }
+      });
+          if(rides.length === 0) return res.status(204).json({data: []});
+    
         res.json({data: result}) 
-     });
 });
 
 
