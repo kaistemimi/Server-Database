@@ -87,7 +87,8 @@ router.post('/add', async(req, res) => {
    router.get('/:id',async (req,res)=>{
     // console.log(result)
     const result = [];
-    const driverId = req.params.id;
+    const driverId = req.params.id; 
+    // Ride.find({where: {driverId: 2}}) WHERE DRIVERiD IS THE FORGIN
     const rides = await Ride.find({driverId : req.body.driverId},(err,data)=>{
           if(rides.length === 0) res.status(204).json({data: []});
         result = rides.filter(unchecked =>{
@@ -95,7 +96,6 @@ router.post('/add', async(req, res) => {
         res.json({data: result}) 
      });
 });
-
 
 
 module.exports = router ;
