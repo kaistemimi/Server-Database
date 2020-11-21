@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
         ICN: req.body.ICN,
         driverLicense: req.body.driverLicense
       });
-    res.json({
+       res.json({
       driver: driver,
         accessToken : jwt.sign(
           { id: driver.id },
