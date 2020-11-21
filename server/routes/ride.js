@@ -1,6 +1,9 @@
 const express = require('express');
 const router= express.Router();
-const {Ride} = require('../../database/models');
+const {Ride, Passenger} = require('../../database/models');
+// const db = require("../../database/models/ride");
+// const { Model } = require('sequelize/types');
+
 
 router.get('/', async(req, res) => {
     await Ride.findAll().then((ride) => res.json(ride))
@@ -36,7 +39,9 @@ router.post('/create', async(req, res) => {
         stop4: req.body.stop4,
         driverId: req.body.driverId
     })
-    .then((ride) => res.json(ride))
+    .then((ride) => {
+        console.log(ride)
+        res.json(ride)})
 })
 
 
@@ -88,5 +93,18 @@ router.post('/reserve', async (req, res) => {
 
 
 
+  router.get('/:id', async(req, res) => {
+      try{
+        const passengerId = req.params.id;
+        const passenger = await Passenger.findPk(passengerId);
+        const rides = await passenger.getRides();
+        console.log(rides)
+            if(rides.length){
+             res.status(200).json(rides);
+            }
+        }catch(error) {
+          res.status(500).json(error);
+      }
+  })
 
 module.exports = router ;
