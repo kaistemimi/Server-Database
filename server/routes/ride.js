@@ -36,8 +36,16 @@ router.post('/', async(req, res) => {
 
 
 
-router.post('update/reserve', (req, res) => {
-    
+router.post('ride/search', async(req, res) => {
+   try {
+    const rides = await Ride.findAll({
+        deparature: req.body.departure,
+        destination: req.body.destination
+    });
+    res.status(200).json(rides);
+    } catch(error) {
+        res.status(405).json(error);
+    }
 });
 
 
