@@ -12,6 +12,7 @@ const driver = require('./routes/drivers.js')
 const passenger = require('./routes/passengers.js')
 const ride = require('./routes/ride.js')
 
+
 app.use("/car", car);
 app.use("/passenger", passenger);
 app.use("/driver", driver);
