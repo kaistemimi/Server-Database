@@ -50,7 +50,7 @@ nodemailer.createTestAccount((err, email) => {
     })
   );
   let mailOptions = {
-    from: "",
+    from: "Car-pooling@RBK.com",
     to: `${req.body.email}`,
     subject: "Carpooling new account",
     text: `Hey Mr/Mrs ${req.body.firstName}, we much appreciate you joining our community.
