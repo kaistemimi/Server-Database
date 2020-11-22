@@ -1,6 +1,6 @@
 const express = require('express');
 const router= express.Router();
-const {Ride} = require('../../database/models');
+const {Ride, Driver, Passenger} = require('../../database/models');
 const { Op } = require("sequelize");
 
 
@@ -34,9 +34,10 @@ router.get('/ride', async(req, res) => {
 
 
 router.post("/reserve/add", async (req, res) => {
+  console.log(req.body)
     const passengerId = req.body.passengerId;
     const rideId = req.body.rideId;
-    let ride = await Ride.findOne({id: rideId});
+    let ride = await Ride.findOne({where :{id: rideId}});
     ride.addPassenger(passengerId);
   });
 
@@ -51,28 +52,66 @@ router.post('/search', async(req, res) => {
      where: {
        departure: req.body.departure,
        destination: req.body.destination
-     }
-      
+     },
+     include: [Driver]
    });
+   console.log(rides)
    res.status(200).json(rides);
    } catch(error) {
        res.status(405).json(error);
    }
 });
 
-router.post('/reserve', async (req, res) => {
-  try {
-    const passengerId = req.body.passengerId;
-    const rideId = req.body.rideId;
-    let ride = await Ride.findByPk(rideId);
-    let reserved = await ride.addPassenger(passengerId);
-    if(reserved) return res.json('reserved');
-  } catch(error) {
-    res.status(405).json(error);
+// router.post('/reserve', async (req, res) => {
+//   console.log(req.body)
+//   try {
+//     const passengerId = req.body.passengerId;
+//     const rideId = req.body.rideId;
+//     console.log(rideId)
+//     let ride = await Ride.findByPk(rideId);
+//     let reserved = await ride.addPassenger(passengerId);
+//     if(reserved) return res.json('reserved');
+//   } catch(error) {
+//     res.status(405).json(error);
+//   }
+// });
+
+router.post('/reserve',async(req,res)=>{
+  console.log(req.body);
+  const ride_id = req.body.rideId;
+  const passenger_id = req.body.passengerId;
+  try{
+    const seat = await Ride.findByPk(ride_id)
+    if (seat.checkedStatus === true) return res.send({message: "no more seats for this ride"});
+    if(seat.seats !== 0){
+ await Ride.decrement('seats', { where: { id: ride_id }});
+ console.log(ride, "here i am")
+   const updated = await Ride.findByPk(ride_id)
+   if(updated.seats === 0){
+   await Ride.update({ checkedStatus : true })	
+     }
+   res.status(200).json('place is reserved!')
   }
-});
+  }catch(error){
+   res.status(405).json(error)
+  }
+})
 
 
+router.get('/:id', async(req, res) => {
+  try{
+    console.log(req.params)
+    const passengerId = Number(req.params.id);
+    const passenger = await Passenger.findByPk(passengerId);
+    const rides = await passenger.getRides();
+    console.log(rides)
+        if(rides.length){
+         res.status(200).json(rides);
+        }
+    }catch(error) {
+      res.status(500).json(error);
+  }
+})
 
 
 //basma
