@@ -1,6 +1,6 @@
 const express = require('express');
 const router= express.Router();
-const {Ride} = require('../../database/models');
+const {Ride, Driver, Passenger} = require('../../database/models');
 const ride = require('../../database/models/ride');
 const db = require("../../database/models/ride");
 // const { Model } = require('sequelize/types');
@@ -54,9 +54,10 @@ router.post('/search', async(req, res) => {
      where: {
        departure: req.body.departure,
        destination: req.body.destination
-     }
-      
+     },
+     include: [Driver]
    });
+   console.log(rides)
    res.status(200).json(rides);
    } catch(error) {
        res.status(405).json(error);
@@ -75,7 +76,20 @@ router.post('/reserve', async (req, res) => {
   }
 });
 
-
+router.get('/:id', async(req, res) => {
+  try{
+    console.log(req.params)
+    const passengerId = Number(req.params.id);
+    const passenger = await Passenger.findByPk(passengerId);
+    const rides = await passenger.getRides();
+    console.log(rides)
+        if(rides.length){
+         res.status(200).json(rides);
+        }
+    }catch(error) {
+      res.status(500).json(error);
+  }
+})
 
 
 //basma
