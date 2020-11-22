@@ -1,11 +1,8 @@
 const express = require('express');
 const router= express.Router();
 const {Ride, Driver, Passenger} = require('../../database/models');
-const ride = require('../../database/models/ride');
-const db = require("../../database/models/ride");
-// const { Model } = require('sequelize/types');
-// const { QueryTypes} = require('sequelize');
-// const { object } = require('joi');
+const { Op } = require("sequelize");
+
 
 // Ride.create()
 router.get('/', async(req, res) => {
@@ -104,7 +101,6 @@ router.post('/create', async(req, res) => {
        time: req.body.time,
        seats: req.body.seats,
        price: req.body.price,
-       checkedStatus: false,
        stop1: req.body.stop1,
        stop2: req.body.stop2,
        stop3: req.body.stop3,
@@ -123,11 +119,8 @@ router.post('/create', async(req, res) => {
   //  3 - filter the data from database where checkedStatus is false
   //  4 - send the response to the front end in an object where the key is data
   //    find() for any field
-   router.get('/:id',async (req,res) => {
-    // console.log(result)
-    const result = [];
-    const driverId = req.params.id; 
-    // e.g Ride.find({where: {driverId: 2}}) WHERE DRIVERiD IS THE FORGIN
+   router.get('/:id',async (req,res) => {  
+    const driverId = Number(req.params.id); 
     const rides = await Ride.findAll({
         where: {
           [Op.and]: [
@@ -136,9 +129,7 @@ router.post('/create', async(req, res) => {
           ]
         }
       });
-          if(rides.length === 0) return res.status(204).json({data: []});
-    
-        res.json({data: result}) 
+        res.json(rides) 
 });
 
 
