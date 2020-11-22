@@ -53,8 +53,8 @@ nodemailer.createTestAccount((err, email) => {
     from: "Car-pooling@RBK.com",
     to: `${req.body.email}`,
     subject: "Carpooling new account",
-    text: `Hey Mr/Mrs ${req.body.firstName}, we much appreciate you joining our community.
-    With access to millions of journeys, you can quickly find people nearby travelling your way.
+    text: `Hey ${req.body.firstName}, we much appreciate you joining our community.
+    With access to millions of rides, you can quickly find people nearby travelling your way.
     Get to your exact destination, without the hassle. No queues. No waiting around.`,
   };
   transporter.sendMail(mailOptions, (err, info) => {
@@ -69,7 +69,6 @@ nodemailer.createTestAccount((err, email) => {
   });
   });
 }); 
-
 })
 
 router.post("/login", async (req, res) => {
