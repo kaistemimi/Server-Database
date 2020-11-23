@@ -10,7 +10,7 @@ const auth = require('./Middleware/auth.jwt.js')
 const car = require('./routes/car.js')
 const driver = require('./routes/drivers.js')
 const passenger = require('./routes/passengers.js')
-const ride = require('./routes/ride.js')
+const ride = require('./routes/rides.js')
 
 
 app.use("/car", car);
