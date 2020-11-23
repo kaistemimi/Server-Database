@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     await Driver.findAll().then((drivers) => res.json(drivers));
   });
 
-  router.get("/:id", AuthJwt, async (req, res) => {
+  router.get("/:id", async (req, res) => {
     await Driver.findByPk(req.params.id).then((drivers) => res.json(drivers));
   });
 
@@ -55,17 +55,17 @@ router.get("/", async (req, res) => {
           from: "Car-pooling@RBK.com",
           to: `${req.body.email}`,
           subject: "Carpooling new account",
-          text: `Hey Mr/Mrs ${req.body.firstName}, we much appreciate you joining our community.     
+          text: `Hey ${req.body.firstName}, ${req.body.lastName} welcome to our community.     
                 Driving in your car soon?
-                Let's make this your least expensive journey ever.
-                 Your ride. your choice `,
+                Let's make this your least expensive and eco-friendly.
+                 Your ride. your choice !`,
         };
         transporter.sendMail(mailOptions, (err, info) => {
           res.json({
             driver: driver,
               accessToken : jwt.sign(
                 { id: driver.id },
-                'RANDOM_TOKEN_SECRET',
+                'HAMDI_IS_DYING',
                 { expiresIn: 2*60 }
               )
             })
