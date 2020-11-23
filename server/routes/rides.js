@@ -50,7 +50,8 @@ router.post('/search', async(req, res) => {
    const rides = await Ride.findAll({
      where: {
        departure: req.body.departure,
-       destination: req.body.destination
+       destination: req.body.destination,
+       checkedStatus: false
      },
      include: [Driver]
    });
