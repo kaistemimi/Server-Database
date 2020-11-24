@@ -28,15 +28,6 @@ module.exports = {
         allowNull: false,
         unique: true,
         type: Sequelize.STRING,
-        validate: {
-          isEmail: {
-            msg: 'Not exist'
-          },
-          isUnique: Connection.validateIsUnique(
-            'email',
-            'This email address already exists'
-          )
-        }
       },
       password: {
         allowNull: false,
