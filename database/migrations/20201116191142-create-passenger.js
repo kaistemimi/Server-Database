@@ -26,11 +26,22 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING
+        unique: true,
+        type: Sequelize.STRING,
+        validate: {
+          isEmail: {
+            msg: 'Not exist'
+          },
+          isUnique: Connection.validateIsUnique(
+            'email',
+            'This email address already exists'
+          )
+        }
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(6),
+        is:  /^[A-Za-z]\w{6}$/
       },
       ICN: {
         allowNull: false,
