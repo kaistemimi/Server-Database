@@ -1,7 +1,4 @@
 'use strict';
-
-const { ConnectionError } = require("sequelize/types");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Drivers', {
@@ -29,15 +26,18 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        unique: true,
         type: Sequelize.STRING,
+        isUnique: true,
+        validate: {
+          isEmail:true,
+          isUnique: sequelize.validateIsUnique('email')
+        }
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(6),
-        is:  /^[A-Za-z]\w{6}$/
+        type: Sequelize.STRING(60),
+        is:/^[0-9a-f]{60}$/i
       },
-      
       ICN: {
         allowNull: false,
         type: Sequelize.INTEGER
